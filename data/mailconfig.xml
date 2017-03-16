@@ -3,7 +3,7 @@
    <base>
      <sendserver>mail.iyunxiao.com</sendserver>
 	 <username>test@iyunxiao.com</username>
-	 <password>test</password>
+	 <password>test.11</password>
 	 <sender>test@iyunxiao.com</sender>
 	 <recevier>test@iyunxiao.com</recevier>
 	 <subject>自动化测试报告</subject>
