@@ -1,5 +1,5 @@
-loginname='15810798241'
+loginname='test'
 loginpasswd='798241'
 subjectid='1004957'
-testurl="ct.yunxiao.com:8110"
-subjecturl="http://ct.yunxiao.com:8110/subject/1004888"
+testurl="ct.test.com:8110"
+subjecturl="http://ct.test.com:8110/subject/1004888"
