@@ -73,12 +73,13 @@ class Subject(unittest.TestCase):
         time.sleep(1)
         self.driver.find_element_by_id("createTemplate").click()
         self.driver.find_element_by_css_selector("#yx_messager_confirm_3 > div.yx-dialog-wrapper.yx-dialog-confirm > div.yx-dialog-footer > a.yx-dialog-btn.yx-dialog-btn-primary").click()
-        time.sleep(1)
+        time.sleep(6)
         for handle in  all_handles:
             if handle != now_windows:
+                pass
+            else:
                 self.driver.switch_to.window(handle)
                 time.sleep(3)
-                print("修改页面")
                 name=self.driver.find_element_by_css_selector("body > div.template-info > div > div.template-info-detail > div > div:nth-child(2) > span:nth-child(2)").text
                 time.sleep(3)
                 print(name)
