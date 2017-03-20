@@ -7,12 +7,12 @@ from case.yj import loginorout
 from data import yjdata
 
 
-class Hello(unittest.TestCase):
+class Exam(unittest.TestCase):
 
     def setUp(self):
         self.logi = loginorout.Loginorout
-        # self.driver=webdriver.Chrome()
-        self.driver = webdriver.PhantomJS(executable_path=r'C:\python\phantomjs\bin\phantomjs.exe')
+        self.driver=webdriver.Chrome()
+        #self.driver = webdriver.PhantomJS(executable_path=r'C:\python\phantomjs\bin\phantomjs.exe')
         self.driver.get("http://ct.yunxiao.com:8110")
 
     def tearDown(self):
@@ -22,7 +22,7 @@ class Hello(unittest.TestCase):
         self.logi.login(self, self.driver, yjdata.loginname, yjdata.loginpasswd)
         time.sleep(3)
         name=self.driver.find_element(By.XPATH,"/html/body/header/nav/div[1]/a").text
-        self.assertEqual("王程远", name,"有错误")
+        self.assertEqual("王程", name,"有错误")
 
     def test3_checksubjectpage(self):
         self.logi.login(self, self.driver, yjdata.loginname, yjdata.loginpasswd)

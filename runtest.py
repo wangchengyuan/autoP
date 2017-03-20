@@ -10,10 +10,9 @@ import os.path
 
 
 #定义测试case路径
-testproject=sys.argv[1]
-dir='./case/'+testproject+'/'
-
-#dir='./case/pj/'
+# testproject=sys.argv[1]
+# dir='./case/'+testproject+'/'
+dir='./case/yj/'
 #匹配测试文件
 discover=unittest.defaultTestLoader.discover(dir,pattern="test*.py")
 
@@ -30,5 +29,5 @@ if __name__=="__main__":
     runner=HTMLTestRunner.HTMLTestRunner(stream=fp, title='测试报告', description='用例执行情况')
     runner.run(discover)
     fp.close()
-    SendMail().send_mail()
+    SendMail().send_mail_att()
     print("邮件发送成功")
