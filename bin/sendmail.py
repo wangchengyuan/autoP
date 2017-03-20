@@ -79,7 +79,7 @@ class SendMail():
         smtp = smtplib.SMTP()
         smtp.connect(sendserver)
         smtp.login(username, password)
-        smtp.sendmail(sender, recevier, msgRoot.as_string())
+        smtp.sendmail(sender, recevier.split(','), msgRoot.as_string())
         smtp.quit()
 if __name__=="__main__":
     SendMail().send_mail()
