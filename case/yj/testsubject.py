@@ -68,13 +68,22 @@ class Subject(unittest.TestCase):
         self.logi.login(self,self.driver,yjdata.loginname,yjdata.loginpasswd)
         time.sleep(1)
         self.driver.get(yjdata.subjecturl)
+        now_windows=self.driver.current_window_handle
+        all_handles=self.driver.window_handles
         time.sleep(1)
         self.driver.find_element_by_id("createTemplate").click()
-        time.sleep(1)
         self.driver.find_element_by_css_selector("#yx_messager_confirm_3 > div.yx-dialog-wrapper.yx-dialog-confirm > div.yx-dialog-footer > a.yx-dialog-btn.yx-dialog-btn-primary").click()
         time.sleep(1)
-        name=self.driver.find_element_by_css_selector("body > div.template-info > div > div.template-info-detail > div > div:nth-child(2) > span:nth-child(2)").text
-        print(name)
-        self.assertIn("试卷张数",name,"修改试卷模板页面不正常")
+        for handle in  all_handles:
+            if handle != now_windows:
+                self.driver.switch_to.window(handle)
+                time.sleep(3)
+                print("修改页面")
+                name=self.driver.find_element_by_css_selector("body > div.template-info > div > div.template-info-detail > div > div:nth-child(2) > span:nth-child(2)").text
+                time.sleep(3)
+                print(name)
+                self.assertIn("试卷张数111",name,"修改试卷模板页面不正常")
+
+
 
 
