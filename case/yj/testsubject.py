@@ -64,25 +64,110 @@ class Subject(unittest.TestCase):
     #     self.assertEquals("框架总览",name,"试卷结构页面不正常")
 
     #####进入指定的科目首页，然后进入修改模板，判断【试卷张数】是否存在
-    def test5_template(self):
+    # def test5_template(self):
+    #     self.logi.login(self,self.driver,yjdata.loginname,yjdata.loginpasswd)
+    #     time.sleep(1)
+    #     self.driver.get(yjdata.subjecturl)
+    #     now_windows=self.driver.current_window_handle
+    #     time.sleep(1)
+    #     self.driver.find_element_by_id("createTemplate").click()
+    #     self.driver.find_element_by_css_selector("#yx_messager_confirm_3 > div.yx-dialog-wrapper.yx-dialog-confirm > div.yx-dialog-footer > a.yx-dialog-btn.yx-dialog-btn-primary").click()
+    #     time.sleep(2)
+    #     all_handles = self.driver.window_handles
+    #     for handle in  all_handles:
+    #         if handle != now_windows:
+    #             self.driver.switch_to.window(handle)
+    #             time.sleep(3)
+    #             name=self.driver.find_element_by_css_selector("body > div.template-info > div > div.template-info-detail > div > div:nth-child(2) > span:nth-child(2)").text
+    #             time.sleep(3)
+    #             print(name)
+    #             self.assertIn("试卷张数",name,"修改试卷模板页面不正常")
+    #####进入指定的科目首页，然后进入框选主观题页面
+    # def test6_kuangti(self):
+    #     self.logi.login(self,self.driver,yjdata.loginname,yjdata.loginpasswd)
+    #     time.sleep(1)
+    #     self.driver.get(yjdata.subjecturl)
+    #     now_windows=self.driver.current_window_handle
+    #     time.sleep(1)
+    #     self.driver.find_element_by_id("kuangti").click()
+    #     time.sleep(1)
+    #     all_handles = self.driver.window_handles
+    #     for handle in  all_handles:
+    #         if handle != now_windows:
+    #             self.driver.switch_to.window(handle)
+    #             time.sleep(2)
+    #             name=self.driver.find_element_by_css_selector("#block1 > div > div.block-info-part-content.block-yue-info-part-content > div.block-info-part-header.block-yue-info-part-header > div > div.block-info-name-left > a").text
+    #             time.sleep(2)
+    #             print(name)
+    #             self.assertIn("题块1",name,"划分阅卷块页面不正常")
+    #             self.driver.find_element_by_css_selector("body > div.main-content_header1.font-18-w > span:nth-child(3) > a").click()
+    #             time.sleep(2)
+    #             name=self.driver.find_element_by_css_selector("body > div.main-content_right-content > div.subjectSettingBlockStyle_divright > span.subjectSettingBlockStyle_item1").text
+    #             time.sleep(1)
+    #             print(name)
+    #             self.assertIn("题块1",name,"框选主观题页面不正常")
+    #####进入指定科目首页，进入阅卷任务分配页面
+    # def test7_fenPeiRenWu(self):
+    #     self.logi.login(self,self.driver,yjdata.loginname,yjdata.loginpasswd)
+    #     time.sleep(1)
+    #     self.driver.get(yjdata.subjecturl)
+    #     self.driver.find_element_by_id("fenPeiRenWu").click()
+    #     time.sleep(2)
+    #     name = self.driver.find_element_by_css_selector("#studentInfo > thead > tr > th.xuhao > span").text
+    #     time.sleep(2)
+    #     print(name)
+    #     self.assertEquals("题块",name,"分配任务列表不正常")
+    #     self.driver.find_element_by_css_selector("#studentInfo > tbody > tr > td.operate > a").click()
+    #     time.sleep(2)
+    #     name = self.driver.find_element_by_css_selector("body > div.main-content.main-content--center > div.block-detail > div.block-detail__block-info > h3").text
+    #     print(name)
+    #     self.assertEqual("题块信息", name, "设置阅卷任务页面不正常")
+
+    #####进入指定科目，进入扫描进度页面
+    # def test8_checkjindu(self):
+    #     self.logi.login(self,self.driver,yjdata.loginname,yjdata.loginpasswd)
+    #     time.sleep(1)
+    #     self.driver.get(yjdata.subjecturl)
+    #     self.driver.find_element_by_id("checkjindu").click()
+    #     time.sleep(2)
+    #     name = self.driver.find_element_by_css_selector("#scanProcess > p:nth-child(3)").text
+    #     print(name)
+    #     self.assertIn("报名考生",name,"扫描进度页面不正常")
+
+    ####进入指定科目的，答案设置页面
+    # def test9_setDaan(self):
+    #     self.logi.login(self,self.driver,yjdata.loginname,yjdata.loginpasswd)
+    #     time.sleep(1)
+    #     self.driver.get(yjdata.subjecturl)
+    #     self.driver.find_element_by_id("setDaan").click()
+    #     time.sleep(1)
+    #     name = self.driver.find_element_by_css_selector("body > div.main-content > div.main-content_right-content > div:nth-child(3) > div > span.setanswerobj-rect_row.font-4.pdt-20").text
+    #     print(name)
+    #     self.assertEqual("单选题答案",name,"客观题答案设置页面不正常")
+
+    ####进入指定科目的上传原卷页面
+    def test10_uploadYuanjuan(self):
         self.logi.login(self,self.driver,yjdata.loginname,yjdata.loginpasswd)
         time.sleep(1)
         self.driver.get(yjdata.subjecturl)
-        now_windows=self.driver.current_window_handle
+        self.driver.find_element_by_id("uploadYuanjuan").click()
+        time.sleep(2)
+        name = self.driver.find_element_by_id("setParam2").text
+        print(name)
+        self.assertEqual("设置", name, "上传原卷页面不正常")
+
+    def test11_jiankong(self):
+        self.logi.login(self,self.driver,yjdata.loginname,yjdata.loginpasswd)
         time.sleep(1)
-        self.driver.find_element_by_id("createTemplate").click()
-        self.driver.find_element_by_css_selector("#yx_messager_confirm_3 > div.yx-dialog-wrapper.yx-dialog-confirm > div.yx-dialog-footer > a.yx-dialog-btn.yx-dialog-btn-primary").click()
-        time.sleep(6)
-        all_handles = self.driver.window_handles
-        for handle in  all_handles:
-            if handle != now_windows:
-                self.driver.switch_to.window(handle)
-                time.sleep(3)
-                name=self.driver.find_element_by_css_selector("body > div.template-info > div > div.template-info-detail > div > div:nth-child(2) > span:nth-child(2)").text
-                time.sleep(3)
-                print(name)
-                self.assertIn("试卷张数",name,"修改试卷模板页面不正常")
-
-
-
-
+        self.driver.get(yjdata.subjecturl)
+        self.driver.find_element_by_xpath("//*[@id='jiankong']").click()
+        # self.driver.find_element_by_id("jiankong").click()
+        time.sleep(2)
+        name = self.driver.find_element_by_css_selector("body > div.main-content > div.main-content_right-content > div.subjectReviewProgress-content > div:nth-child(2) > p").text
+        print(name)
+        self.assertIn("主观题",name,"阅卷监控-按题块查看页面不正常")
+        self.driver.find_element_by_xpath("//*[@id='3739']").click()
+        time.sleep(2)
+        name = self.driver.find_element_by_css_selector("body > div.main-content > div.main-content_right-content > div > div.quality-context-table > span:nth-child(1)").text
+        print(name)
+        self.assertIn("题块1", name, "阅卷质量页面不正常")
