@@ -1,6 +1,8 @@
 #coding=utf-8
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import NoSuchElementException
 import time
 import unittest
 from case.yj import loginorout
@@ -18,17 +20,88 @@ class Exam(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    def test2_checkname(self):
-        self.logi.login(self, self.driver, yjdata.loginname, yjdata.loginpasswd)
+    def test1_createexam(self):
+        #创建考试
+        global examname
+        examname="automationtest"+time.strftime('%Y%m%d%H%M%S')
+        self.logi.login(self,self.driver,yjdata.loginname,yjdata.loginpasswd)
         time.sleep(3)
-        name=self.driver.find_element(By.XPATH,"/html/body/header/nav/div[1]/a").text
-        self.assertEqual("王程", name,"有错误")
+        self.driver.find_element(By.CSS_SELECTOR,"body > header > nav > span > a").click()
+        self.driver.find_element(By.CSS_SELECTOR,"body > div.main-content--center > div:nth-child(2) > div:nth-child(3) > input").send_keys(examname)
+        self.driver.find_element(By.ID,"examedit_starttime").send_keys(Keys.ENTER)
+        self.driver.find_element(By.ID,"examedit_endtime").send_keys(Keys.ENTER)
+        time.sleep(1)
+        self.driver.find_element(By.ID,"template_11").click()
+        self.driver.find_element(By.ID,"examedit_save").click()
+        time.sleep(4)
+        self.assertTrue(self.driver.find_element(By.LINK_TEXT,examname))
 
-    def test3_checksubjectpage(self):
+
+    def test2_checkexamdynamic(self):
+       #检查创建考试动态
         self.logi.login(self, self.driver, yjdata.loginname, yjdata.loginpasswd)
         time.sleep(3)
-        self.driver.get("http://ct.yunxiao.com:8110/subject/"+yjdata.subjectid+"?pageIndex=1")
-        data=self.driver.find_element(By.ID,"main-content_header_center1").text
-        self.assertIn('1004957',data,"指定科目首页页面有误")
+        self.driver.find_element(By.LINK_TEXT,examname).click()
+        time.sleep(1)
+        self.driver.find_element(By.CLASS_NAME,"star-empty").click()
+        time.sleep(4)
+        content=self.driver.find_element(By.CSS_SELECTOR,"body > div.feed.main-content--center > div.feed__rightContent > div.feed__rightContent__exam-list > ul > li > a > p.item").text
+        self.assertIn(examname,content,"动态中不存在创建考试的动态")
+
+    def test3_checkexam_usermanage(self):
+        #检查学生管理页面是否显示正常
+        self.logi.login(self,self.driver,yjdata.loginname,yjdata.loginpasswd)
+        time.sleep(3)
+        self.driver.find_element(By.LINK_TEXT,examname).click()
+        time.sleep(1)
+        self.driver.find_element(By.ID,"exam-detail-people-kaosheng-second-active").click()
+        time.sleep(1)
+        content=self.driver.find_element(By.CSS_SELECTOR,"#studentInfo > thead > tr > th:nth-child(2)").text
+        self.assertEqual('学号',content,"学号不存在，页面有问题")
+
+    def test4_checkexam_studentdata(self):
+        #导入数据
+        self.logi.login(self,self.driver,yjdata.loginname,yjdata.loginpasswd)
+        time.sleep(3)
+        self.driver.find_element(By.LINK_TEXT,examname).click()
+        time.sleep(1)
+        self.driver.find_element(By.ID,"exam-detail-people-kaosheng-second-active").click()
+        time.sleep(2)
+        self.driver.find_element(By.NAME,"file").send_keys(yjdata.studentdatafile)
+        time.sleep(8)
+        self.driver.find_element(By.CLASS_NAME,"btn-close").click()
+        time.sleep(2)
+        content=self.driver.find_element(By.ID,"exam-kaosheng-school-overview-left").text
+        self.assertIn('63',content,"上传有误")
+
+    def test5_checkexam_editexam(self):
+        #检查修改考试页面
+         self.logi.login(self,self.driver,yjdata.loginname,yjdata.loginpasswd)
+         time.sleep(3)
+         self.driver.find_element(By.LINK_TEXT,examname).click()
+         time.sleep(1)
+         self.driver.find_element(By.CLASS_NAME,"edit-2").click()
+         time.sleep(2)
+         self.assertTrue(self.driver.find_element(By.ID,"examedit_save"),"页面有问题")
+
+    def test6_checkexam_deleteexam(self):
+        #删除考试
+        self.logi.login(self,self.driver,yjdata.loginname,yjdata.loginpasswd)
+        time.sleep(3)
+        self.driver.find_element(By.LINK_TEXT,examname).click()
+        time.sleep(1)
+        self.driver.find_element(By.CLASS_NAME,"delete").click()
+        time.sleep(1)
+        self.driver.find_element(By.CSS_SELECTOR,"#yx_messager_danger_3 > div.yx-dialog-wrapper.yx-dialog-danger > div.yx-dialog-footer > a.yx-dialog-btn.yx-dialog-btn-danger").click()
+        time.sleep(1)
+        tag=True
+        try:
+            self.driver.find_element(By.LINK_TEXT,examname)
+        except NoSuchElementException:
+            tag=False
+        self.assertFalse(tag,"删除失败")
+
+
+
 
 

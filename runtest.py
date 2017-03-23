@@ -20,11 +20,13 @@ if __name__=="__main__":
 
     date=time.strftime('%Y%m%d%H%M%S')
     # reportdir="./report/"+testproject+"/"+date+"report.html"
+    # reportdirlist="./report"+testproject+"/"
     reportdir = "./report/" + date+ "report.html"
-    # if os.path.isdir(reportdir):
-    #     pass
-    # else:
-    #     os.mkdir(sys.argv[0]+reportdir)
+    reportdirlist="./report/yj/"
+    if os.path.isdir(reportdirlist):
+        pass
+    else:
+        os.mkdir(reportdirlist)
     fp=open(reportdir,"wb")
     runner=HTMLTestRunner.HTMLTestRunner(stream=fp, title='测试报告', description='用例执行情况')
     runner.run(discover)
