@@ -7,7 +7,7 @@ from bin.sendmail import SendMail
 import HTMLTestRunner
 import time
 import os.path
-
+#test
 
 #定义测试case路径
 # testproject=sys.argv[1]
