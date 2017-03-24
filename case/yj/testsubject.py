@@ -223,13 +223,20 @@ class Subject(unittest.TestCase):
         time.sleep(2)
         self.driver.find_element_by_id("yaoyuejuan").click()
         time.sleep(2)
+        now_windows=self.driver.current_window_handle
+        time.sleep(1)
         name = self.driver.find_element_by_css_selector("body > div.main-content > div.main-content_right-content > div > div:nth-child(2) > div > span.subjectReviewProgress-teacher_detail_item > span.subjectReviewProgress-teacher_head").text
         self.assertIn("题块",name,"任务列表显示不正常")
+        time.sleep(1)
         self.driver.find_element_by_css_selector("body > div.main-content > div.main-content_right-content > div > div:nth-child(2) > div > span.subjectReviewProgress-teacher_detail_item-last > a.subjectReviewProgress_button").click()
-        time.sleep(10)
-        name = self.driver.find_element_by_id("markTotalScore").text
-        print(name)
-        self.assertIn("合计",name,"进入阅卷页面不正常")
+        all_handles = self.driver.window_handles
+        for handle in  all_handles:
+            if handle != now_windows:
+                self.driver.switch_to.window(handle)
+                time.sleep(2)
+                name = self.driver.find_element_by_id("markTotalScore").text
+                print(name)
+                self.assertIn("合计",name,"进入阅卷页面不正常")
 
 
 
