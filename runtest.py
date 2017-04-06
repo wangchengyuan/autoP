@@ -7,6 +7,8 @@ from bin.sendmail import SendMail
 import HTMLTestRunner
 import time
 import os.path
+from bin.findreport import FindReport
+from bin.checkreport import CheckReport
 #test
 
 #定义测试case路径
@@ -21,7 +23,8 @@ if __name__=="__main__":
     date=time.strftime('%Y%m%d%H%M%S')
     # reportdir="./report/"+testproject+"/"+date+"report.html"
     # reportdirlist="./report"+testproject+"/"
-    reportdir = "./report/" + date+ "report.html"
+    reportlocate="./report/"
+    reportdir = reportlocate + date+ "report.html"
     reportdirlist="./report/yj/"
     if os.path.isdir(reportdirlist):
         pass
@@ -31,5 +34,9 @@ if __name__=="__main__":
     runner=HTMLTestRunner.HTMLTestRunner(stream=fp, title='测试报告', description='用例执行情况')
     runner.run(discover)
     fp.close()
-    SendMail().send_mail_att()
-    print("邮件发送成功")
+    filename=FindReport.findnewreport(reportlocate)
+    print("开始检测报告")
+    if CheckReport.checkreport(filename):
+        print("检测报告有失败数据，开始发送邮件")
+        SendMail().send_mail_att()
+        print("邮件发送成功")
